@@ -35,13 +35,13 @@ X_tst(idx_tst) = X(idx_tst);  % add known training values
 
 global k lambda learning_rate;
 k = 5;
-lambda = 100;
+lambda = 10;
 learning_rate = 0.005;
 
 % Loop through epocs until convergence or overfitting
 rmse1 = [];
 rmse2 = [];
-while(1)
+%while(1)
     
     % Predict the missing values here!
     X_pred = PredictMissingValues(X_trn, nil);
@@ -59,5 +59,5 @@ while(1)
 
     disp(['Root of Mean-squared error (test): ' num2str(rmse1(end))]);
     disp(['Root of Mean-squared error (train): ' num2str(rmse2(end))]);
-end
+%end
 
