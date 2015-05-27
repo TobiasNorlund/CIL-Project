@@ -1,11 +1,11 @@
 function X_pred = PredictMissingValuesALS(X, nil)
 
-persistent movieReps userReps movieBias userBias mu
-global k;
-global lambda;
+%p%ersistent movieReps userReps movieBias userBias mu
+%g%lobal k;
+%g%lobal lambda;
 
-% k = 10;
-% lambda = 100;
+k = 5;
+lambda = 10;
 
 xnil = X == nil;
 xnotnil = X ~= nil;
@@ -14,15 +14,16 @@ X0 = X;
 X0(xnil) = 0;
 
 % Initialize k-dim representations
-if(isempty(userReps) && isempty(movieReps))
+%if(isempty(userReps) && isempty(movieReps))
     mu = mean2(X0);
     movieReps = 0.5*(rand(k, size(X,2))-0.5); %0.1*ones(k, size(X,2));
     movieBias = mean(X0,1)-mu; %zeros(1, size(X,2));
     userReps = 0.5*(rand(k, size(X,1))-0.5); %0.1*ones(k, size(X,1));
     userBias = mean(X0,2)'-mu; %zeros(1, size(X,1));
-end
+%end
 
 % Train representations
+for e = 1:10
 
 % Optimize movie representations
 for movie_idx = 1:size(X,2)
@@ -68,6 +69,7 @@ mu = sum(sum(res))/sum(sum(xnotnil));
 norm(movieBias)
 norm(userBias)
 mu
+end
 
 % Use new representation to predict ratings
 X_pred = userReps'*movieReps + repmat(userBias',1,size(X,2)) + repmat(movieBias,size(X,1),1) + mu*ones(size(X));
