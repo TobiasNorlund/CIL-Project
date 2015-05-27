@@ -3,14 +3,14 @@
 % the MSE of the predicted to the true known entries of the test data.
 %
 % Loads data from Data.mat and calls PredictMissingValues.m.
-clear all
+clear all;
 
 % Setup
 %rand('seed', 1);  % fix random seed for reproducibility
 
 % Constants
 filename = 'Data.mat';
-prc_trn = 0.5;  % percentage of training data
+prc_trn = 0.8;  % percentage of training data
 nil = 99;  % missing value indicator
 
 % Load data
@@ -35,13 +35,13 @@ X_tst(idx_tst) = X(idx_tst);  % add known training values
 
 global k lambda learning_rate;
 k = 5;
-lambda = 10;
+lambda = 0;
 learning_rate = 0.005;
 
 % Loop through epocs until convergence or overfitting
 rmse1 = [];
 rmse2 = [];
-%while(1)
+while(1)
     
     % Predict the missing values here!
     X_pred = PredictMissingValues(X_trn, nil);
@@ -59,5 +59,5 @@ rmse2 = [];
 
     disp(['Root of Mean-squared error (test): ' num2str(rmse1(end))]);
     disp(['Root of Mean-squared error (train): ' num2str(rmse2(end))]);
-%end
+end
 
