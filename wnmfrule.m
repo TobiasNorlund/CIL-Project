@@ -45,6 +45,7 @@ function [A,Y,numIter,tElapsed,finalResidual]=wnmfrule(X,k,option)
 % May 01, 2011
 %%%%
 
+[r,c]=size(X); % c is # of samples, r is # of features
 
 tStart=tic;
 optionDefault.distance='ls';
@@ -52,6 +53,10 @@ optionDefault.iter=1000;
 optionDefault.dis=true;
 optionDefault.residual=1e-4;
 optionDefault.tof=1e-4;
+optionDefault.Y=rand(k,c);
+optionDefault.Y=max(optionDefault.Y,eps);
+optionDefault.A=X/optionDefault.Y;
+optionDefault.Y=max(optionDefault.A,eps);
 if nargin<3
    option=optionDefault;
 else
@@ -64,13 +69,8 @@ X(W)=0;
 W=~W;
 
 % iter: number of iterations
-[r,c]=size(X); % c is # of samples, r is # of features
-Y=rand(k,c);
-% Y(Y<eps)=0;
-Y=max(Y,eps);
-A=X/Y;
-% A(A<eps)=0;
-A=max(A,eps);
+Y=option.Y;
+A=option.A;
 XfitPrevious=Inf;
 for i=1:option.iter
     switch option.distance
