@@ -34,14 +34,14 @@ X_tst = ones(size(X))*nil;
 X_tst(idx_tst) = X(idx_tst);  % add known training values
 
 global k lambda learning_rate;
-k = 5;
+k = 6;
 lambda = 0;
 learning_rate = 0.005;
 
 % Loop through epocs until convergence or overfitting
 rmse1 = [];
 rmse2 = [];
-while(1)
+for e = 1:100
     
     % Predict the missing values here!
     X_pred = PredictMissingValues(X_trn, nil);
