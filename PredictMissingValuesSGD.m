@@ -14,7 +14,7 @@ userReps = randn(k, size(X,1));
 % Train representations
 [users, movies] = find(X ~= nil);
 rmse = [];
-for e = 1:10
+%for e = 1:10
     
 for i = 1:length(users)
     
@@ -37,7 +37,7 @@ for i = 1:length(users)
     end
 end
 
-end
+%end
 
 % Use new representation to predict ratings
 [users, movies] = find(ones(size(X)));

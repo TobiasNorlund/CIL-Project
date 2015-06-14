@@ -41,7 +41,7 @@ learning_rate = 0.005;
 % Loop through epocs until convergence or overfitting
 rmse1 = [];
 rmse2 = [];
-for e = 1:100
+for e = 1:10
     
     % Predict the missing values here!
     X_pred = PredictMissingValues(X_trn, nil);

@@ -18,8 +18,8 @@ X(X~=nil) = X(X~=nil) - min_val;
     X_tmp = PredictMissingValuesBaseline(X, nil);
 % end
 
-for i = 1:300
-
+for i = 1:10
+i
 U = U .* (X_tmp*Z')./(U*(Z*Z'));
 Z = Z .* (U'*X_tmp)./(U'*U*Z);
 
@@ -30,7 +30,7 @@ end
 
 % Run WNMF
 X(X == nil) = nan;
-option = struct('distance','ls', 'iter', 1000, 'Y', Z, 'A', U);
+option = struct('distance','ls', 'iter', 100, 'Y', Z, 'A', U);
 [A,Y,numIter,tElapsed,finalResidual] = wnmfrule(X,k, option);
 
 X_pred = (A*Y) + min_val;
