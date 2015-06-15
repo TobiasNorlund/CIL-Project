@@ -14,18 +14,18 @@ ALS(3,end) = SGD(3,end);
 EMNMF(3,end) = SGD(3,end);
 WNMF(3,end) = SGD(3,end);
 
-semilogx((1:size(SGD,2))*40, SGD(2,:), '-k', 'LineWidth',2 )
+semilogx(SGD(3,:), SGD(2,:), '-k', 'LineWidth',2 )
 hold on
-semilogx((1:size(SGD,2))*40, SGD(1,:), '--k')
+semilogx(SGD(3,:), SGD(1,:), '--k')
 
-semilogx((1:size(ALS,2))*7, ALS(1,:), '-b', 'LineWidth',2 )
-semilogx((1:size(ALS,2))*7, ALS(2,:), '--b')
+semilogx(ALS(3,:), ALS(1,:), '-b', 'LineWidth',2 )
+semilogx(ALS(3,:), ALS(2,:), '--b')
 
-semilogx((1:size(EMNMF,2))*2, EMNMF(1,:), '-g', 'LineWidth',2 )
-semilogx((1:size(EMNMF,2))*2, EMNMF(2,:), '--g')
+semilogx(EMNMF(3,:), EMNMF(1,:), '-g', 'LineWidth',2 )
+semilogx(EMNMF(3,:), EMNMF(2,:), '--g')
 
-semilogx((1:size(WNMF,2))*2, WNMF(1,:), '-r', 'LineWidth',2 )
-semilogx((1:size(WNMF,2))*2, WNMF(2,:), '--r')
+semilogx(WNMF(3,:), WNMF(1,:), '-r', 'LineWidth',2 )
+semilogx(WNMF(3,:), WNMF(2,:), '--r')
 hold off
 
 axis([-inf, 2000, 0.8, 1.3])
