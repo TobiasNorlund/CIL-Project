@@ -3,9 +3,12 @@ function X_pred = PredictMissingValues(X, nil)
 % values in X are denoted by the special constant value nil.
 
 % Use baseline or SVD?
-alg = 3; % 0 = Baseline, 1 = SVD
+alg = 4; % 0 = Baseline, 1 = SVD
 
 switch(alg)
+    case 6
+        %ALM
+        X_pred = PredictMissingValuesALM(X, nil);
     case 5
         %EMNMF
         X_pred = PredictMissingValuesEMNMF(X, nil);

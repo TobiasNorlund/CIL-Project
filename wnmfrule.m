@@ -45,6 +45,11 @@ function [A,Y,numIter,tElapsed,finalResidual]=wnmfrule(X,k,option)
 % May 01, 2011
 %%%%
 
+% Weight
+W=isnan(X);
+X(W)=0;
+W=~W;
+
 [r,c]=size(X); % c is # of samples, r is # of features
 
 tStart=tic;
@@ -56,17 +61,12 @@ optionDefault.tof=1e-4;
 optionDefault.Y=rand(k,c);
 optionDefault.Y=max(optionDefault.Y,eps);
 optionDefault.A=X/optionDefault.Y;
-optionDefault.Y=max(optionDefault.A,eps);
+optionDefault.A=max(optionDefault.A,eps);
 if nargin<3
    option=optionDefault;
 else
     option=mergeOption(option,optionDefault);
 end
-
-% Weight
-W=isnan(X);
-X(W)=0;
-W=~W;
 
 % iter: number of iterations
 Y=option.Y;

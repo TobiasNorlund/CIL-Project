@@ -4,7 +4,7 @@ persistent movieReps userReps movieBias userBias mu
 global k;
 global lambda;
 
-%k = 5;
+%k = 6;
 %lambda = 10;
 
 xnil = X == nil;
@@ -32,6 +32,25 @@ res = res_tmp - mov_bs_tmp - repmat(userBias',1,size(X,2));
 res(xnil) = 0;
 mu = sum(sum(res))/sum(sum(xnotnil));
 
+% Update movie bias
+res_tmp = X - userReps'*movieReps;
+usr_bs_tmp = repmat(userBias',1,size(X,2));
+bs_tmp = mu*ones(size(X));
+res = res_tmp - usr_bs_tmp - bs_tmp;
+res(xnil) = 0;
+N = sum(xnotnil,1);
+movieBias = sum(res,1)./(N*(1+lambda));
+
+% Update user bias
+mov_bs_tmp = repmat(movieBias,size(X,1),1);
+bs_tmp = mu*ones(size(X));
+res = res_tmp - mov_bs_tmp - bs_tmp;
+res(xnil) = 0;
+N = sum(xnotnil,2);
+N(N==0) = 1;
+userBias = sum(res,2)./(N*(1+lambda*2));
+userBias = userBias';
+
 % Optimize movie representations
 for movie_idx = 1:size(X,2)
 
@@ -50,28 +69,15 @@ for user_idx = 1:size(X,1)
     userReps(:,user_idx) = (Q'*Q + lambda*eye(k))\Q'*y;        
 end
 
-% Update movie bias
-res_tmp = X - userReps'*movieReps;
-usr_bs_tmp = repmat(userBias',1,size(X,2));
-bs_tmp = mu*ones(size(X));
-res = res_tmp - usr_bs_tmp - bs_tmp;
-res(xnil) = 0;
-N = sum(xnotnil,1);
-movieBias = sum(res,1)./(N*(1+lambda));
+% Display debug info
 
-% Update user bias
-mov_bs_tmp = repmat(movieBias,size(X,1),1);
-bs_tmp = mu*ones(size(X));
-res = res_tmp - mov_bs_tmp - bs_tmp;
-res(xnil) = 0;
-N = sum(xnotnil,2);
-userBias = sum(res,2)./(N*(1+lambda*2));
-userBias = userBias';
-
-norm(movieBias)
-norm(userBias)
-mu
+display(['Movie bias norm: ' num2str(norm(movieBias))]);
+display(['User bias norm: ' num2str(norm(userBias))]);
+display(['Mu: ' num2str(mu)]);
 %end
 
 % Use new representation to predict ratings
 X_pred = userReps'*movieReps + repmat(userBias',1,size(X,2)) + repmat(movieBias,size(X,1),1) + mu*ones(size(X));
+X_pred(X_pred < min(min(X(xnotnil)))) = min(min(X(xnotnil)));
+X_pred(X_pred > max(max(X(xnotnil)))) = max(max(X(xnotnil)));
+%X_pred = round(X_pred);
