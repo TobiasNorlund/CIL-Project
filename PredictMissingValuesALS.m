@@ -5,7 +5,7 @@ global k;
 global lambda;
 
 %k = 6;
-%lambda = 10;
+%lambda = 1;
 
 xnil = X == nil;
 xnotnil = X ~= nil;
@@ -48,7 +48,7 @@ res = res_tmp - mov_bs_tmp - bs_tmp;
 res(xnil) = 0;
 N = sum(xnotnil,2);
 N(N==0) = 1;
-userBias = sum(res,2)./(N*(1+lambda*2));
+userBias = sum(res,2)./(N*(1+lambda));
 userBias = userBias';
 
 % Optimize movie representations
@@ -80,4 +80,5 @@ display(['Mu: ' num2str(mu)]);
 X_pred = userReps'*movieReps + repmat(userBias',1,size(X,2)) + repmat(movieBias,size(X,1),1) + mu*ones(size(X));
 X_pred(X_pred < min(min(X(xnotnil)))) = min(min(X(xnotnil)));
 X_pred(X_pred > max(max(X(xnotnil)))) = max(max(X(xnotnil)));
+%X_pred(xnotnil) = X(xnotnil);
 %X_pred = round(X_pred);

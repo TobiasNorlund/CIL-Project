@@ -34,9 +34,9 @@ X_tst = ones(size(X))*nil;
 X_tst(idx_tst) = X(idx_tst);  % add known training values
 
 global k lambda learning_rate;
-k = 7;
-lambda = 10;
-learning_rate = 0.005;
+k = 10;
+lambda = 18;
+learning_rate = 0.1;
 
 % Loop through epocs until convergence or overfitting
 rmse1 = [];
@@ -53,6 +53,7 @@ for e = 1:100
     rmse1 = [rmse1 sqrt(mean((X_tst(X_tst ~= nil) - X_pred(X_tst ~= nil)).^2))];  % error on known test values
     rmse2 = [rmse2 sqrt(mean((X_trn(X_trn ~= nil) - X_pred(X_trn ~= nil)).^2))];  % error on known test values
     
+    figure(1)
     plot(rmse1);
     hold on
     plot(rmse2, 'r');

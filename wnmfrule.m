@@ -96,7 +96,7 @@ for i=1:option.iter
         XfitThis=A*Y;
         fitRes=matrixNorm(W.*(XfitPrevious-XfitThis));
         XfitPrevious=XfitThis;
-        curRes=norm(W.*(X-XfitThis),'fro');
+        curRes=sqrt(sum(W.*(X-XfitThis).^2)/sum(W))
         if option.tof>=fitRes || option.residual>=curRes || i==option.iter
             
             
